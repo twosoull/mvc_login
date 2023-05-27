@@ -23,6 +23,10 @@ public class MemberRepository {
         return member;
     }
 
+    public Member findById(Long loginId){
+        return store.get(loginId);
+    }
+
     public Optional<Member> findByLoginId(String loginId){
         /*
         List<Member> memberList = findAll();
@@ -37,8 +41,10 @@ public class MemberRepository {
     // stream()은 for문과 같은 역할을 하며 list를 돌려준다
     // filter는 if문의 역할을 하며
     // findFirst()는 처음으로 나오는 객체를 반환해준다.
+        return findAll().stream()
+                    .filter(m -> m.getLoginId().equals(loginId))
+                    .findFirst();
 
-        return findAll().stream().filter(m -> m.getLoginId().equals(loginId)).findFirst();
     }
 
     public List<Member> findAll(){
