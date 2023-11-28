@@ -1,6 +1,7 @@
 package hello.login;
 
 import hello.login.web.Interceptor.LogInterceptor;
+import hello.login.web.Interceptor.LoginCheckInterceptor;
 import hello.login.web.filter.LogFilter;
 import hello.login.web.filter.LoginCheckFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -21,9 +22,16 @@ public class WebConfig implements WebMvcConfigurer {//WebMvcConfigurer은 인터
                 .order(1)
                 .addPathPatterns("/**")//허용 패턴
                 .excludePathPatterns("/css/**","/*.ico","/error"); //미허용 패턴
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/members/add","/login","/logout",
+                        "/css/**","/*.ico","/error");
+
+
     }
 
- //   @Bean
+    //@Bean
     public FilterRegistrationBean logFilter(){
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LogFilter()); //만든 필터를 넣는다.
